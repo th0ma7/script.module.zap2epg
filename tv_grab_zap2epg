@@ -17,10 +17,18 @@
 
 # Default path for RasbPi Kodi+TVH
 BaseDir="$HOME/script.module.zap2epg/epggrab"
-# If running on synology NAS assume TVH only
-[ "$(uname -a | grep -i synology)" ] && BaseDir="$HOME/var/epggrab"
 # If running on common linux under hts user
 [ "$(id hts 2>/dev/null)" ] && BaseDir="$HOME/zap2epg"
+# If running on synology NAS check DSM version for proper path
+if [ "$(uname -a | grep -i synology)" ]; then
+   if [ $(uname -a | sed -e 's/.* #//' -e 's/ .*//') -lt 40000 ]; then
+      # DSM6
+      BaseDir="/var/packages/tvheadend/target/var/epggrab"
+   else
+      # DSM7
+      BaseDir="/var/packages/tvheadend/var/epggrab"
+   fi
+fi
 
 CacheDir="$BaseDir/cache"
 ConfDir="$BaseDir/conf"
