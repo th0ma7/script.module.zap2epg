@@ -465,7 +465,7 @@ def mainRun(userdata):
                                         genreNewList = genreSort(edict['epfilter'], edict['epgenres'])
                                     elif edict['epfilter'] is not None:
                                         genreNewList = edict['epfilter']
-                                    if genreNewList is not "":
+                                    if genreNewList != "":
                                         for genre in genreNewList:
                                             fh.write("\t\t<category lang=\"" + lang + "\">" + convHTML(genre).replace('filter-','') + "</category>\n")
                                 fh.write("\t</programme>\n")
