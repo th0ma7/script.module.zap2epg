@@ -21,6 +21,9 @@ BaseDir="$HOME/script.module.zap2epg/epggrab"
 [ "$(id hts 2>/dev/null)" ] && BaseDir="$HOME/zap2epg"
 # If running on synology NAS check DSM version for proper path
 if [ "$(uname -a | grep -i synology)" ]; then
+   # Use the local virtualenv python path in order to
+   # get access to all optional locally installed modules
+   export PATH=/var/packages/tvheadend/target/env/bin:${PATH}
    if [ $(uname -a | sed -e 's/.* #//' -e 's/ .*//') -lt 40000 ]; then
       # DSM6
       BaseDir="/var/packages/tvheadend/target/var/epggrab"
