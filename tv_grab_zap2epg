@@ -456,7 +456,7 @@ def mainRun(userdata):
                                     for c in edict['epcredits']:
                                         if c['assetId'] is not None and c['assetId'] != '':
                                             crole=c['role']
-                                            fh.write('\t\t\t<' + c['role'].lower() + ' role="' + convHTML(c['characterName']) + '" src="https://gracenote.tmsimg.com/assets/' + c['assetId'] + '.jpg">' + convHTML(c['name']) + '</' + c['role'].lower() + '>\n')
+                                            fh.write('\t\t\t<' + c['role'].lower() + ' role="' + convHTML(c['characterName']) + '" src="https://zap2it.tmsimg.com/assets/' + c['assetId'] + '.jpg">' + convHTML(c['name']) + '</' + c['role'].lower() + '>\n')
                                         else:
                                             fh.write('\t\t\t<' + c['role'].lower() + ' role="' + convHTML(c['characterName']) + '">' + convHTML(c['name']) + '</' + c['role'].lower() + '>\n')
                                     fh.write("\t\t</credits>\n")
