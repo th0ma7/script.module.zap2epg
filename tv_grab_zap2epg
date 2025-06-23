@@ -77,7 +77,7 @@ def mainRun(userdata):
     root = settings.getroot()
     settingsDict = {}
     xdescOrderDict = {}
-    logging.info('Running zap2epg-3.0')
+    logging.info('Running zap2epg-3.2')
     kodiVersion = root.attrib.get('version')
     logging.info('Kodi settings version: %s', kodiVersion)
     for setting in root.findall('setting'):
@@ -132,6 +132,8 @@ def mainRun(userdata):
             chmatch = settingsDict[setting]
         if setting == 'tvhmatch':
             tvhmatch = settingsDict[setting]
+        if setting == 'useragent':
+            useragent = settingsDict[setting]
         if setting == 'stitle':
             stitle = settingsDict[setting]
         if setting.startswith('desc'):
@@ -653,7 +655,7 @@ def mainRun(userdata):
                                     data = 'programSeriesID=' + EPseries
                                     data_encode = data.encode('utf-8')
                                     try:
-                                        URLcontent = urllib.request.Request(url, data=data_encode)
+                                        URLcontent = urllib.request.Request(url, data=data_encode, headers={'User-Agent': useragent})
                                         JSONcontent = urllib.request.urlopen(URLcontent).read()
                                         if JSONcontent:
                                             with open(fileDir,"wb+") as f:
@@ -853,7 +855,8 @@ def mainRun(userdata):
                 try:
                     logging.info('Downloading guide data for: %i', int(gridtime))
                     url = 'http://tvlistings.gracenote.com/api/grid?lineupId=&timespan=3&headendId=' + lineupcode + '&country=' + country + '&device=' + device + '&postalCode=' + zipcode + '&time=' + str(int(gridtime)) + '&pref=-&userId=-'
-                    saveContent = urllib.request.urlopen(url).read()
+                    req = urllib.request.Request(url, data=None, headers={'User-Agent': useragent})
+                    saveContent = urllib.request.urlopen(req).read()
                     savepage(fileDir, saveContent)
                 except:
                     logging.warning('Could not download guide data for: %i', int(gridtime))
@@ -913,7 +916,8 @@ python3 -c "$script"
 # create one by default
 if [ ! -f "$ConfFile" ]; then
 read -r -d '' config <<-"----EOF"
-<settings version="2">
+<settings version="3">
+  <setting id="useragent">Mozilla/5.0 (X11; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/115.0</setting>
   <setting id="zipcode">92101</setting>
   <setting id="lineupcode">lineupId</setting>
   <setting id="lineup">Local Over the Air Broadcast</setting>
